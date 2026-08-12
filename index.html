@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="vi" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Trần Ngọc Tùng - Nihongo Master Tiếng Nhật</title>
+
+    <!-- Theme Initialization Script -->
+    <script>
+      (function() {
+        try {
+          var savedTheme = localStorage.getItem('theme');
+          if (savedTheme === 'light') {
+            document.documentElement.classList.remove('dark');
+            document.documentElement.classList.add('light');
+          } else {
+            document.documentElement.classList.remove('light');
+            document.documentElement.classList.add('dark');
+          }
+        } catch (e) {}
+
+        // Global Fetch Guard
+        try {
+          var _fetch = window.fetch;
+          function getFetch() { return _fetch; }
+          function setFetch(val) { _fetch = val; }
+          var targets = [window];
+          if (typeof Window !== 'undefined' && Window.prototype) {
+            targets.push(Window.prototype);
+          }
+          for (var i = 0; i < targets.length; i++) {
+            try {
+              Object.defineProperty(targets[i], 'fetch', {
+                get: getFetch,
+                set: setFetch,
+                configurable: true,
+                enumerable: true
+              });
+            } catch (e) {}
+          }
+        } catch (e) {}
+      })();
+    </script>
+
+    <!-- PWA & Mobile Meta -->
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#0c0a09" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="description" content="Trần Ngọc Tùng - Nihongo Master: Ứng dụng học từ vựng và ngữ pháp Tiếng Nhật JLPT N5-N1, Flashcard, Trắc nghiệm, Trợ lý AI Gemini thông minh." />
+
+    <!-- Open Graph & Social Sharing -->
+    <meta property="og:title" content="Trần Ngọc Tùng - Nihongo Master Tiếng Nhật" />
+    <meta property="og:description" content="Học từ vựng, ngữ pháp N5-N1, trích xuất AI Gemini và kiểm tra câu tiếng Nhật chuyên sâu." />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="/assets/icon-512.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- Google Fonts Non-blocking -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;600;700;900&family=Zen+Maru+Gothic:wght@400;500;700&display=swap" media="print" onload="this.media='all'" />
+    <noscript>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;600;700;900&family=Zen+Maru+Gothic:wght@400;500;700&display=swap" />
+    </noscript>
+  </head>
+  <body class="bg-stone-950 text-stone-100 min-h-screen antialiased selection:bg-amber-500/30 selection:text-amber-200 washi-texture">
+    <div id="root">
+      <!-- Instant Loading Skeleton & Zen Splash -->
+      <div style="min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; background-color: #0c0a09; color: #f59e0b; font-family: sans-serif; gap: 1rem;">
+        <div style="width: 48px; height: 48px; border: 3px solid rgba(245, 158, 11, 0.2); border-top-color: #f59e0b; border-radius: 50%; animation: spin 0.8s linear infinite;"></div>
+        <div style="font-size: 1.125rem; font-weight: 700; letter-spacing: 0.05em;">Trần Ngọc Tùng - Nihongo Master</div>
+        <div style="font-size: 0.75rem; color: #a8a29e;">Đang tải ứng dụng tốc độ cao...</div>
+        <style>
+          @keyframes spin { to { transform: rotate(360deg); } }
+        </style>
+      </div>
+    </div>
+    <script type="module" src="./src/main.tsx"></script>
+
+    <!-- Service Worker Registration -->
+    <script>
+      if ('serviceWorker' in navigator && window.location.protocol === 'https:') {
+        window.addEventListener('load', function() {
+          navigator.serviceWorker.register('/sw.js').catch(function(err) {
+            console.log('SW registration failed:', err);
+          });
+        });
+      }
+    </script>
+  </body>
+</html>

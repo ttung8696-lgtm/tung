@@ -1,0 +1,25 @@
+{
+  "short_name": "NihongoMaster",
+  "name": "Trần Ngọc Tùng - Nihongo Master Tiếng Nhật",
+  "description": "Ứng dụng học từ vựng và ngữ pháp Tiếng Nhật cao cấp JLPT N5-N1, thẻ ghi nhớ Flashcard, trắc nghiệm, sơ đồ tư duy ngữ pháp và Trợ lý AI Gemini.",
+  "icons": [
+    {
+      "src": "/assets/icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/assets/icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#0c0a09",
+  "theme_color": "#0c0a09",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "lang": "vi-VN"
+}

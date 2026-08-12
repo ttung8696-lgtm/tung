@@ -1,0 +1,8 @@
+{
+  "name": "Trần Ngọc Tùng - Nihongo Master",
+  "description": "Ứng dụng học từ vựng và ngữ pháp Tiếng Nhật cao cấp JLPT N5-N1, thẻ ghi nhớ Flashcard, trắc nghiệm, sơ đồ tư duy ngữ pháp và Trợ lý AI Gemini phân tích câu chuyên sâu.",
+  "requestFramePermissions": [
+    "microphone"
+  ],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

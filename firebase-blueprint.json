@@ -1,0 +1,104 @@
+{
+  "collections": [
+    {
+      "path": "user_profiles",
+      "description": "User profiles and private study environments",
+      "documents": [
+        {
+          "id": "{profileId}",
+          "fields": [
+            {
+              "name": "username",
+              "type": "string",
+              "description": "User account name or username",
+              "required": true
+            },
+            {
+              "name": "pin",
+              "type": "string",
+              "description": "Account PIN or passcode",
+              "required": true
+            },
+            {
+              "name": "learnedIds",
+              "type": "array",
+              "description": "IDs of learned vocabulary",
+              "required": false
+            },
+            {
+              "name": "bookmarkedIds",
+              "type": "array",
+              "description": "IDs of bookmarked vocabulary",
+              "required": false
+            },
+            {
+              "name": "customWords",
+              "type": "array",
+              "description": "Custom user-added vocabulary words",
+              "required": false
+            },
+            {
+              "name": "updatedAt",
+              "type": "timestamp",
+              "description": "Last updated timestamp",
+              "required": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "user_activity_logs",
+      "description": "User activity history and study logs",
+      "documents": [
+        {
+          "id": "{logId}",
+          "fields": [
+            {
+              "name": "accountId",
+              "type": "string",
+              "description": "User account ID",
+              "required": true
+            },
+            {
+              "name": "username",
+              "type": "string",
+              "description": "Username of actor",
+              "required": true
+            },
+            {
+              "name": "action",
+              "type": "string",
+              "description": "Action type (login, learned, bookmark, quiz, add_word, etc.)",
+              "required": true
+            },
+            {
+              "name": "title",
+              "type": "string",
+              "description": "Human readable action title",
+              "required": true
+            },
+            {
+              "name": "details",
+              "type": "string",
+              "description": "Optional details about the action",
+              "required": false
+            },
+            {
+              "name": "category",
+              "type": "string",
+              "description": "Category of log (Học tập, Hệ thống, Kiểm tra, Từ vựng)",
+              "required": true
+            },
+            {
+              "name": "timestamp",
+              "type": "number",
+              "description": "Unix timestamp in ms",
+              "required": true
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
