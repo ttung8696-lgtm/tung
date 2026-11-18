@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#11121a" />
+    <meta
+      name="description"
+      content="Petoria – game nhập vai linh thú tiếng Việt. Đi bộ qua làng, thu phục bạn đồng hành, tập luyện và chinh phục thủ lĩnh."
+    />
+    <title>Petoria — Thế giới linh thú</title>
+    <link rel="icon" href="./assets/logo.svg" type="image/svg+xml" />
+    <link rel="preload" href="./assets/meadow.webp" as="image" />
+    <link rel="stylesheet" href="./assets/fonts/local.css" />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="shell topinner">
+        <a href="./" class="brand" aria-label="Trang chính Petoria"
+          ><img src="./assets/logo.svg" alt="" /><span>PETORIA</span></a
+        >
+        <span class="nav-divider"></span>
+        <nav class="nav" aria-label="Điều hướng trò chơi">
+          <button class="navlink active" data-do="world" aria-current="page">
+            <i data-i="gamepad-2"></i><span>Phiêu lưu</span>
+          </button>
+          <button class="navlink" data-do="maps"><i data-i="map"></i><span>Bản đồ</span></button>
+          <button class="navlink" data-do="guide"><i data-i="book-open"></i><span>Cẩm nang</span></button>
+        </nav>
+        <div class="topright">
+          <button id="sound" class="iconbtn" data-do="sound" aria-label="Tắt âm thanh" title="Tắt âm thanh">
+            <i data-i="volume-2"></i>
+          </button>
+          <button class="profile" data-do="profile" title="Hồ sơ huấn luyện viên">
+            <span class="avatar"><img src="./assets/avatar.png" alt="" /></span
+            ><span id="trainer-name">Tân binh</span><i data-i="chevron-down"></i>
+          </button>
+        </div>
+      </div>
+    </header>
+    <main class="shell main">
+      <section class="intro" aria-labelledby="world-title">
+        <div>
+          <div class="eyebrow"><span class="short-line"></span> TRẠM PHIÊU LƯU</div>
+          <h1 id="world-title">
+            Thế giới linh thú<span class="title-stars" aria-hidden="true">✦<b>✦</b></span>
+          </h1>
+          <p>Đồng hành cùng linh thú, khám phá những miền đất mới.</p>
+        </div>
+        <div class="wallet" aria-label="Tài sản của bạn">
+          <div class="money">
+            <i data-p="coin"></i><span><small>Vàng</small><strong id="gold">250</strong></span>
+          </div>
+          <span class="vline"></span>
+          <div class="money">
+            <i data-p="gem"></i><span><small>Ngọc</small><strong id="gems">12</strong></span>
+          </div>
+        </div>
+      </section>
+      <div class="dashboard">
+        <section class="adventure" aria-label="Khu vực chơi">
+          <div id="map-card" class="map-card">
+            <div
+              id="stage"
+              class="stage"
+              tabindex="0"
+              aria-label="Bản đồ tương tác. Dùng phím mũi tên, W A S D hoặc chạm đất để di chuyển."
+            >
+              <div id="world" class="world">
+                <img
+                  id="land"
+                  class="land"
+                  src="./assets/meadow.webp"
+                  alt="Ngôi làng giữa rừng xanh, có hai mái nhà ngói đỏ và cây cầu gỗ qua suối."
+                />
+                <div id="actors"></div>
+                <span id="waypoint" class="waypoint" hidden></span>
+                <div id="buddy" class="buddy"><img src="./assets/sprig.png" alt="" /></div>
+                <div id="player" class="player">
+                  <span class="you-tag">Bạn</span><img src="./assets/trainer.png" alt="Nhân vật của bạn" />
+                </div>
+                <div class="motes" aria-hidden="true"><b></b><b></b><b></b><b></b><b></b></div>
+              </div>
+              <div class="map-hud">
+                <button class="zone-badge" data-do="maps" title="Chọn khu vực">
+                  <span class="zone-pin"><i data-i="map-pin"></i></span
+                  ><span
+                    ><small id="zone-no">KHU VỰC 01</small><strong id="zone-name">Làng Mầm Xanh</strong></span
+                  ><i data-i="chevron-down"></i></button
+                ><span class="day-badge"><i data-i="sun"></i> Ban ngày</span>
+              </div>
+              <div class="map-bottom">
+                <span class="coords"><i data-i="crosshair"></i><span id="coords">046 : 061</span></span
+                ><button
+                  class="map-expand"
+                  data-do="expand"
+                  id="expand"
+                  title="Mở rộng bản đồ"
+                  aria-label="Mở rộng bản đồ"
+                >
+                  <i data-i="maximize"></i>
+                </button>
+              </div>
+            </div>
+            <div class="map-controls">
+              <span class="live-state"><b></b> Đang khám phá</span><span class="control-divider"></span
+              ><span class="desktop-controls"
+                ><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> <span>Di chuyển</span></span
+              ><span class="click-tip"
+                ><i data-i="mouse-pointer-2"></i><span class="wide-tip">Nhấp để tương tác</span
+                ><span class="touch-tip">Chạm để di chuyển / tương tác</span></span
+              >
+            </div>
+          </div>
+          <section class="quick" aria-labelledby="quick-title">
+            <div class="section-line">
+              <h2 id="quick-title"><i data-i="zap"></i>Thao tác nhanh</h2>
+              <span class="keys-caption">PHÍM TẮT <em>1 — 4</em></span>
+            </div>
+            <div class="action-grid">
+              <button class="action violet" data-do="fight">
+                <span class="action-top"><i data-p="combat"></i><kbd>1</kbd></span
+                ><strong>Chiến đấu</strong><small>Tìm đối thủ</small>
+              </button>
+              <button class="action mint" data-do="gym">
+                <span class="action-top"><i data-p="gym"></i><kbd>2</kbd></span
+                ><strong>Huấn luyện</strong><small>Rèn sức mạnh</small>
+              </button>
+              <button class="action honey" data-do="bag">
+                <span class="action-top"><i data-p="bag"></i><kbd>3</kbd></span
+                ><strong>Túi đồ</strong><small>Kho vật phẩm</small>
+              </button>
+              <button class="action coral" data-do="shop">
+                <span class="action-top"><i data-p="shop"></i><kbd>4</kbd></span
+                ><strong>Cửa hàng</strong><small>Mua trang bị</small>
+              </button>
+            </div>
+          </section>
+        </section>
+        <aside class="sidebar" aria-label="Linh thú và nhiệm vụ">
+          <section class="panel companion-panel">
+            <div class="panel-head">
+              <h2><i data-i="paw-print"></i>Linh thú của bạn</h2>
+              <button class="mini-btn" data-do="team" aria-label="Xem đội linh thú" title="Xem đội linh thú">
+                <i data-i="chevron-right"></i>
+              </button>
+            </div>
+            <div id="companion-info"></div>
+            <button class="care-button" data-do="care"><i data-i="hand-heart"></i> Chăm sóc linh thú</button>
+          </section>
+          <section class="panel mission-panel">
+            <div class="panel-head">
+              <h2><i data-i="scroll-text"></i>Nhiệm vụ</h2>
+              <button class="mini-btn" data-do="missions" aria-label="Sổ nhiệm vụ" title="Sổ nhiệm vụ">
+                <i data-i="chevron-right"></i>
+              </button>
+            </div>
+            <div id="mission-info"></div>
+          </section>
+        </aside>
+      </div>
+      <footer class="foot">
+        <span><img src="./assets/logo.svg" alt="" /> PETORIA <b>/</b> <small>POCKET RPG</small></span
+        ><span id="save-state"><i data-i="check-check"></i> Tự động lưu trên thiết bị</span>
+      </footer>
+    </main>
+    <dialog id="dialog" aria-labelledby="dialog-title"><div id="dialog-content"></div></dialog>
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+    <noscript>Hãy bật JavaScript trong trình duyệt để chơi Petoria.</noscript>
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>
