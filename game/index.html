@@ -5,11 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 <title>Game Đua Xe - Tung</title>
 <style>
-  * { box-sizing: border-box; }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
   html, body {
     margin: 0; padding: 0;
     width: 100%; height: 100%;
-    background: #0b1021;
+    background: #05050a;
     color: #fff;
     font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
     overflow: hidden;
@@ -22,53 +22,57 @@
   }
   canvas {
     display: block;
-    background: linear-gradient(#1a1a2e, #0f0f1a);
-    border: 4px solid #e100ff;
-    border-radius: 12px;
-    box-shadow: 0 0 40px rgba(225, 0, 255, 0.35);
+    background: linear-gradient(180deg, #141423 0%, #0a0a12 100%);
+    border: 5px solid #e100ff;
+    border-radius: 16px;
+    box-shadow: 0 0 50px rgba(225, 0, 255, 0.4);
     max-width: 100%; max-height: 100%;
+    image-rendering: pixelated;
   }
   #ui {
-    position: absolute; top: 14px; left: 0; right: 0;
-    display: flex; justify-content: space-between; padding: 0 24px;
-    font-size: 18px; font-weight: 700; letter-spacing: 2px;
-    color: #00f2ff; text-shadow: 0 0 10px #00f2ff;
+    position: absolute; top: 16px; left: 0; right: 0;
+    display: flex; justify-content: space-between; padding: 0 28px;
+    font-size: 20px; font-weight: 800; letter-spacing: 2px;
+    color: #00f2ff; text-shadow: 0 0 14px #00f2ff;
     z-index: 10; pointer-events: none;
   }
   #overlay {
     position: absolute; inset: 0;
-    background: rgba(0,0,0,0.55);
+    background: rgba(0,0,0,0.6);
     display: flex; flex-direction: column; align-items: center; justify-content: center;
-    z-index: 20; text-align: center;
+    z-index: 20; text-align: center; backdrop-filter: blur(6px);
   }
-  h1 { margin: 0 0 10px; font-size: 36px; color: #00f2ff; text-shadow: 0 0 14px #00f2ff; letter-spacing: 4px; }
-  p { margin: 0 0 18px; font-size: 16px; color: #ddd; }
+  h1 { margin: 0 0 12px; font-size: 42px; color: #00f2ff; text-shadow: 0 0 20px #00f2ff; letter-spacing: 6px; }
+  p { margin: 0 0 22px; font-size: 17px; color: #ddd; line-height: 1.6; }
   button {
-    padding: 12px 30px; font-size: 18px; font-weight: 800; color: #000;
-    background: #00f2ff; border: none; border-radius: 8px; cursor: pointer;
-    box-shadow: 0 0 20px #00f2ff; letter-spacing: 2px;
+    padding: 14px 40px; font-size: 20px; font-weight: 800; color: #000;
+    background: linear-gradient(135deg, #00f2ff, #00d9ff); border: none; border-radius: 10px;
+    cursor: pointer; box-shadow: 0 0 30px rgba(0,242,255,0.6); letter-spacing: 3px;
+    transform: scale(1);
   }
-  button:active { transform: scale(0.95); }
-  .controls { position: absolute; bottom: 22px; left: 0; right: 0; display: flex; justify-content: center; gap: 40px; z-index: 15; pointer-events: auto; }
-  .pad { width: 70px; height: 70px; border-radius: 50%; background: rgba(255,255,255,0.12); border: 2px solid rgba(255,255,255,0.35); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 20px; color: #00f2ff; user-select: none; -webkit-tap-highlight-color: transparent; }
-  .pad:active { background: rgba(0,242,255,0.25); }
-  .note { position: absolute; top: 70px; left: 0; right: 0; text-align: center; font-size: 13px; color: #888; pointer-events: none; }
+  button:active { transform: scale(0.93); background: linear-gradient(135deg, #00d9ff, #00f2ff); }
+  .controls { position: absolute; bottom: 26px; left: 0; right: 0; display: flex; justify-content: center; gap: 46px; z-index: 15; pointer-events: auto; }
+  .pad { width: 80px; height: 80px; border-radius: 50%; background: rgba(255,255,255,0.1); border: 3px solid rgba(255,255,255,0.3); display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 24px; color: #00f2ff; user-select: none; }
+  .pad:active { background: rgba(0,242,255,0.25); border-color: #00f2ff; }
+  .note { position: absolute; top: 78px; left: 0; right: 0; text-align: center; font-size: 13px; color: #888; pointer-events: none; }
+  .lane-hint { position: absolute; top: 45%; left: 0; right: 0; color: rgba(255,255,255,0.15); font-size: 48px; font-weight: 900; text-align: center; pointer-events: none; letter-spacing: 120px; }
 </style>
 </head>
 <body>
 <div id="wrap">
-  <div id="ui"><span id="score">SCORE 0</span><span id="best">BEST 0</span></div>
+  <div class="lane-hint">1&nbsp;&nbsp;2&nbsp;&nbsp;3</div>
+  <div id="ui"><span id="score">ĐIỂM 0</span><span id="best">CAO NHẤT 0</span></div>
   <canvas id="c"></canvas>
   <div id="overlay">
     <h1 id="oTitle">ĐUA XE</h1>
-    <p id="oMsg">Tránh các xe đối thủ, đi càng xa điểm càng cao!</p>
+    <p id="oMsg">Tránh xe đối thủ, đi càng xa điểm càng cao!</p>
     <button id="startBtn">BẮT ĐẦU</button>
   </div>
   <div class="controls">
     <div class="pad" id="btnLeft">◀</div>
     <div class="pad" id="btnRight">▶</div>
   </div>
-  <div class="note">Phím mũi tên ← → hoặc A D để lái · Chạm bên trái/phải màn hình</div>
+  <div class="note">Phím mũi tên ← → hoặc A D để lái · Chạm bên trái / phải màn hình</div>
 </div>
 <script>
 const canvas = document.getElementById('c');
@@ -93,53 +97,115 @@ function resize() {
 window.addEventListener('resize', resize);
 resize();
 
-// --- Game state ---
-let state = 'MENU'; // MENU, PLAY, OVER
-let score = 0;
-let best = localStorage.getItem('racing_best') || 0;
-bestEl.textContent = 'BEST ' + best;
-
 const laneCount = 3;
-const lanes = []; // center x of each lane
+const lanes = [];
 function calcLanes() {
-  const pad = 60;
+  const pad = 64;
   const usable = width - pad * 2;
   const step = usable / laneCount;
   for (let i = 0; i < laneCount; i++) lanes[i] = pad + step * (i + 0.5);
 }
 calcLanes();
 
-// Car template
-function makeCar(x, y, w, h, color, speed, player) {
-  return { x, y, w, h, color, speed, player, ax: x };
+// --- Audio synthesis (Web Audio API) ---
+let audioCtx;
+function ensureAudio() {
+  if (!audioCtx) {
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  }
 }
+function playTone(freq, type, duration, vol) {
+  if (!audioCtx) return;
+  const t = audioCtx.currentTime;
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+  osc.type = type;
+  osc.frequency.setValueAtTime(freq, t);
+  osc.frequency.exponentialRampToValueAtTime(freq * 0.5, t + duration);
+  gain.gain.setValueAtTime(vol || 0.1, t);
+  gain.gain.exponentialRampToValueAtTime(0.01, t + duration);
+  osc.connect(gain);
+  gain.connect(audioCtx.destination);
+  osc.start(t);
+  osc.stop(t + duration);
+}
+function playEngine() {
+  if (!audioCtx) return;
+  const t = audioCtx.currentTime;
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+  osc.type = 'sawtooth';
+  osc.frequency.setValueAtTime(110, t);
+  osc.frequency.linearRampToValueAtTime(220, t + 0.15);
+  gain.gain.setValueAtTime(0.04, t);
+  gain.gain.linearRampToValueAtTime(0, t + 0.15);
+  osc.connect(gain);
+  gain.connect(audioCtx.destination);
+  osc.start(t);
+  osc.stop(t + 0.15);
+}
+function playCrash() {
+  if (!audioCtx) return;
+  const t = audioCtx.currentTime;
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+  osc.type = 'sawtooth';
+  osc.frequency.setValueAtTime(150, t);
+  osc.frequency.exponentialRampToValueAtTime(30, t + 0.4);
+  gain.gain.setValueAtTime(0.15, t);
+  gain.gain.exponentialRampToValueAtTime(0.001, t + 0.4);
+  osc.connect(gain);
+  gain.connect(audioCtx.destination);
+  osc.start(t);
+  osc.stop(t + 0.4);
+}
+function playScore() {
+  playTone(900, 'sine', 0.08, 0.05);
+}
+
+// --- Game state ---
+let state = 'MENU'; // MENU, PLAY, OVER
+let score = 0;
+let best = parseInt(localStorage.getItem('racing_best') || '0', 10);
+bestEl.textContent = 'CAO NHẤT ' + best;
+
 let player, cars, roadY, baseSpeed, speed, spawnTimer, spawnInterval, accel;
+let particles = [];
+let shake = 0;
+let engineTimer = 0;
+
+function makeCar(x, y, w, h, color, speed, player) {
+  return { x, y, w, h, color, speed, player, ax: x, lane: 0 };
+}
 
 function reset() {
-  lanes.length = 0; calcLanes();
-  const pw = 46, ph = 78;
+  calcLanes();
+  const pw = 50, ph = 90;
   player = makeCar(cx, height - ph - 40, pw, ph, '#00f2ff', 0, true);
+  player.lane = 1;
   cars = [player];
   roadY = 0;
-  baseSpeed = 4.2;
+  baseSpeed = 5;
   speed = baseSpeed;
   spawnTimer = 0;
-  spawnInterval = 700;
-  accel = 0.00012;
+  spawnInterval = 750;
+  accel = 0.00015;
   score = 0;
-  scoreEl.textContent = 'SCORE 0';
+  particles = [];
+  shake = 0;
+  scoreEl.textContent = 'ĐIỂM 0';
 }
 
 function spawnEnemy() {
-  const ew = 46 + Math.random() * 20;
-  const eh = 60 + Math.random() * 30;
+  const ew = 48 + Math.random() * 18;
+  const eh = 70 + Math.random() * 25;
   const li = Math.floor(Math.random() * laneCount);
   const x = lanes[li] - ew / 2;
-  const ey = -eh - 20;
-  const espeed = speed * (0.75 + Math.random() * 0.6);
-  const car = makeCar(x, ey, ew, eh, '#ff3366', espeed, false);
-  // slight wiggle
-  car.wiggle = Math.random() * Math.PI * 2;
+  const ey = -eh - 40;
+  const espeed = speed * (0.7 + Math.random() * 0.8);
+  const colors = ['#ff3366', '#ffaa00', '#00ff88', '#aa00ff', '#00ccff'];
+  const car = makeCar(x, ey, ew, eh, colors[Math.floor(Math.random() * colors.length)], espeed, false);
+  car.lane = li;
   cars.push(car);
 }
 
@@ -148,119 +214,187 @@ function rectIntersect(a, b) {
          a.y < b.y + b.h && a.y + a.h > b.y;
 }
 
-// --- Input ---
-const keys = {};
-window.addEventListener('keydown', e => { if (e.key === 'ArrowLeft' || e.key === 'ArrowRight' || e.key === 'a' || e.key === 'd' || e.key === 'A' || e.key === 'D') keys[e.key] = true; });
-window.addEventListener('keyup', e => { keys[e.key] = false; });
+function addParticles(x, y, color, count) {
+  for (let i = 0; i < count; i++) {
+    particles.push({
+      x, y,
+      vx: (Math.random() - 0.5) * 12,
+      vy: (Math.random() - 0.5) * 12,
+      life: 1,
+      color,
+      size: 3 + Math.random() * 5
+    });
+  }
+}
 
-function onLeft() { keys.__L = true; setTimeout(() => { keys.__L = false; }, 150); }
-function onRight() { keys.__R = true; setTimeout(() => { keys.__R = false; }, 150); }
-btnLeft.addEventListener('touchstart', e => { e.preventDefault(); onLeft(); }, {passive: false});
-btnLeft.addEventListener('mousedown', onLeft);
-btnRight.addEventListener('touchstart', e => { e.preventDefault(); onRight(); }, {passive: false});
-btnRight.addEventListener('mousedown', onRight);
-startBtn.addEventListener('click', () => { state = 'PLAY'; overlay.style.display = 'none'; });
-document.addEventListener('keydown', e => { if (state === 'PLAY' && (e.key === 'Enter' || e.key === ' ')) {} });
-window.addEventListener('keydown', e => { if ((state === 'MENU' || state === 'OVER') && (e.key === 'Enter' || e.key === ' ')) { state = 'PLAY'; overlay.style.display = 'none'; } });
-canvas.addEventListener('touchstart', e => {
-  e.preventDefault();
-  const t = e.touches[0].clientX;
-  if (state === 'PLAY') {
-    if (t < cx) keys.__L = true; else keys.__R = true;
-    setTimeout(() => { keys.__L = false; keys.__R = false; }, 150);
-  } else { state = 'PLAY'; overlay.style.display = 'none'; }
-}, {passive: false});
+function updateParticles() {
+  for (let i = particles.length - 1; i >= 0; i--) {
+    const p = particles[i];
+    p.x += p.vx; p.y += p.vy;
+    p.life -= 0.025;
+    if (p.life <= 0) particles.splice(i, 1);
+  }
+}
 
-// --- Draw car ---
+function drawParticles() {
+  for (const p of particles) {
+    ctx.globalAlpha = p.life;
+    ctx.fillStyle = p.color;
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.size * p.life, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.globalAlpha = 1;
+  }
+}
+
 function drawCar(car) {
   ctx.save();
   ctx.translate(car.x + car.w / 2, car.y + car.h / 2);
   ctx.fillStyle = car.color;
   ctx.shadowColor = car.color;
-  ctx.shadowBlur = 14;
+  ctx.shadowBlur = car.player ? 20 : 12;
   ctx.lineWidth = 3;
   ctx.strokeStyle = '#fff';
   ctx.beginPath();
-  ctx.roundRect(-car.w/2, -car.h/2, car.w, car.h, 10);
+  ctx.roundRect(-car.w/2, -car.h/2, car.w, car.h, 12);
   ctx.fill(); ctx.stroke();
   ctx.shadowBlur = 0;
   // cabin
   ctx.fillStyle = 'rgba(255,255,255,0.35)';
-  ctx.fillRect(-car.w/2 + 6, -car.h/2 + 8, car.w - 12, car.h/2 - 14);
+  ctx.fillRect(-car.w/2 + 7, -car.h/2 + 9, car.w - 14, car.h/2 - 16);
   // wheels
-  ctx.fillStyle = '#111';
-  ctx.fillRect(-car.w/2 + 8, -car.h/2 + car.h/3 - 2, 10, 16);
-  ctx.fillRect(car.w/2 - 18, -car.h/2 + car.h/3 - 2, 10, 16);
+  ctx.fillStyle = '#0a0a0a';
+  ctx.fillRect(-car.w/2 + 10, -car.h/2 + car.h/3, 12, 20);
+  ctx.fillRect(car.w/2 - 22, -car.h/2 + car.h/3, 12, 20);
+  // headlight
+  if (car.player) {
+    ctx.fillStyle = '#ffff00';
+    ctx.fillRect(-car.w/2 + 8, -car.h/2 + 6, 8, 6);
+    ctx.fillRect(car.w/2 - 16, -car.h/2 + 6, 8, 6);
+  }
   ctx.restore();
 }
 
 function drawRoad() {
-  ctx.fillStyle = '#141423';
+  ctx.fillStyle = '#0f0f1a';
   ctx.fillRect(0, 0, width, height);
-  // road
   const roadW = width * 0.72;
   const rx = (width - roadW) / 2;
-  ctx.fillStyle = '#262638';
+  ctx.fillStyle = '#1e1e2e';
   ctx.fillRect(rx, 0, roadW, height);
   // borders
   ctx.strokeStyle = '#e100ff';
   ctx.lineWidth = 6;
+  ctx.shadowColor = '#e100ff'; ctx.shadowBlur = 15;
   ctx.beginPath(); ctx.moveTo(rx, 0); ctx.lineTo(rx, height); ctx.stroke();
   ctx.beginPath(); ctx.moveTo(rx + roadW, 0); ctx.lineTo(rx + roadW, height); ctx.stroke();
+  ctx.shadowBlur = 0;
   // dashed lines
   ctx.strokeStyle = 'rgba(255,255,255,0.35)';
-  ctx.lineWidth = 5;
-  ctx.setLineDash([30, 40]);
-  roadY = (roadY + speed * 2) % 70;
+  ctx.lineWidth = 6;
+  ctx.setLineDash([40, 50]);
+  roadY = (roadY + speed * 2.5) % 90;
   const step = height / 5;
   for (let i = -1; i <= 5; i++) {
     const y = i * step + roadY;
-    ctx.beginPath(); ctx.moveTo(cx, y); ctx.lineTo(cx, y + 30); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(cx, y); ctx.lineTo(cx, y + 40); ctx.stroke();
   }
   ctx.setLineDash([]);
 }
 
+const keys = {};
+window.addEventListener('keydown', e => {
+  const k = e.key.toLowerCase();
+  if (k === 'arrowleft' || k === 'a') keys.left = true;
+  if (k === 'arrowright' || k === 'd') keys.right = true;
+  if ((state === 'MENU' || state === 'OVER') && (k === 'enter' || k === ' ')) { state = 'PLAY'; overlay.style.display = 'none'; }
+});
+window.addEventListener('keyup', e => {
+  const k = e.key.toLowerCase();
+  if (k === 'arrowleft' || k === 'a') keys.left = false;
+  if (k === 'arrowright' || k === 'd') keys.right = false;
+});
+
+let touchDir = 0;
+canvas.addEventListener('touchstart', e => {
+  e.preventDefault();
+  const t = e.touches[0].clientX;
+  if (state === 'PLAY') touchDir = t < cx ? -1 : 1;
+  else { state = 'PLAY'; overlay.style.display = 'none'; }
+}, {passive: false});
+canvas.addEventListener('touchend', () => { touchDir = 0; });
+
+function onLeft() { if (state === 'PLAY') { touchDir = -1; setTimeout(() => { if (touchDir === -1) touchDir = 0; }, 150); } }
+function onRight() { if (state === 'PLAY') { touchDir = 1; setTimeout(() => { if (touchDir === 1) touchDir = 0; }, 150); } }
+btnLeft.addEventListener('touchstart', e => { e.preventDefault(); onLeft(); }, {passive: false});
+btnLeft.addEventListener('mousedown', onLeft);
+btnRight.addEventListener('touchstart', e => { e.preventDefault(); onRight(); }, {passive: false});
+btnRight.addEventListener('mousedown', onRight);
+startBtn.addEventListener('click', () => { ensureAudio(); state = 'PLAY'; overlay.style.display = 'none'; });
+
 function update() {
   if (state !== 'PLAY') return;
 
-  score += speed * 0.06;
+  engineTimer += 1;
+  if (engineTimer % 40 === 0) playEngine();
+
+  score += speed * 0.08;
   speed += accel;
-  if (score / 1000 > (spawnInterval / 700) * 0 + 0) {}
   spawnTimer += 16;
   if (spawnTimer > spawnInterval) {
     spawnEnemy();
     spawnTimer = 0;
-    spawnInterval = Math.max(400, 700 - score * 0.02);
+    spawnInterval = Math.max(420, 750 - score * 0.025);
   }
 
-  // move player lane
-  const targetLane = player.ax;
+  // player movement
+  const targetLane = player.lane;
   const stepLane = lanes[1] - lanes[0];
-  if (keys.__L && player.ax > lanes[0]) player.ax -= stepLane * 0.22;
-  if (keys.__R && player.ax < lanes[laneCount - 1]) player.ax += stepLane * 0.22;
-  player.x += (player.ax - player.w / 2 - player.x) * 0.18;
+  let moveDir = 0;
+  if (keys.left || touchDir === -1) moveDir = -1;
+  if (keys.right || touchDir === 1) moveDir = 1;
+  const newLane = Math.max(0, Math.min(laneCount - 1, player.lane + moveDir * 0.22));
+  player.lane = newLane;
+  player.ax = lanes[Math.round(player.lane)];
+  player.x += (player.ax - player.w / 2 - player.x) * 0.2;
 
-  // move enemies
+  // enemies
   for (let i = cars.length - 1; i >= 1; i--) {
     const car = cars[i];
     car.y += car.speed;
-    if (car.wiggle) car.x += Math.sin(Date.now() * 0.003 + car.wiggle) * 0.9;
     if (rectIntersect(player, car)) {
       state = 'OVER';
-      if (score > best) { best = score; localStorage.setItem('racing_best', best); bestEl.textContent = 'BEST ' + Math.floor(best); }
+      playCrash();
+      addParticles(player.x + player.w/2, player.y + player.h/2, '#00f2ff', 25);
+      shake = 20;
+      if (score > best) {
+        best = score;
+        localStorage.setItem('racing_best', Math.floor(best));
+        bestEl.textContent = 'CAO NHẤT ' + Math.floor(best);
+      }
       showOver();
       return;
     }
-    if (car.y > height) {
+    if (car.y > height + 100) {
       cars.splice(i, 1);
+      playScore();
     }
   }
+
+  updateParticles();
+  if (shake > 0) shake *= 0.9;
 }
 
 function draw() {
+  const sx = shake > 0 ? (Math.random() - 0.5) * shake : 0;
+  const sy = shake > 0 ? (Math.random() - 0.5) * shake : 0;
+  ctx.save();
+  ctx.translate(sx, sy);
   drawRoad();
   for (const car of cars) drawCar(car);
-  scoreEl.textContent = 'SCORE ' + Math.floor(score);
+  drawParticles();
+  ctx.restore();
+  scoreEl.textContent = 'ĐIỂM ' + Math.floor(score);
 }
 
 function loop() {
